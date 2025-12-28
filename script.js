@@ -96,23 +96,33 @@
 
         /**
          * Initialize entrance animations with Intersection Observer
+         * Enhanced with better performance and smoother animations
          */
         initEntranceAnimations() {
-            if (CONFIG.reducedMotion) return;
+            if (CONFIG.reducedMotion) {
+                // Still show cards, just without animation
+                const linkCards = $$('.link-card');
+                linkCards.forEach(card => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                });
+                return;
+            }
 
             const linkCards = $$('.link-card');
             if (!linkCards.length) return;
 
-            // Use Intersection Observer for performance
+            // Use Intersection Observer for performance with optimized settings
             const observerOptions = {
                 root: null,
-                rootMargin: '0px',
-                threshold: 0.1
+                rootMargin: '50px', // Start animation slightly before visible
+                threshold: [0, 0.1, 0.25]
             };
 
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry, index) => {
-                    if (entry.isIntersecting) {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && entry.intersectionRatio > 0) {
+                        const index = Array.from(linkCards).indexOf(entry.target);
                         this.animateCard(entry.target, index);
                         observer.unobserve(entry.target);
                     }
@@ -125,44 +135,74 @@
         }
 
         /**
-         * Animate individual card
+         * Animate individual card with enhanced easing
          */
         animateCard(card, index) {
             const delay = CONFIG.reducedMotion ? 0 : index * CONFIG.staggerDelay;
+            const duration = 600 + (index * 20); // Slightly longer for later cards
             
             raf(() => {
-                card.style.transition = 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                card.style.transition = `opacity ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                                         transform ${duration}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
                 card.style.transitionDelay = `${delay}ms`;
                 card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
+                card.style.transform = 'translateY(0) scale(1)';
+                
+                // Clean up will-change after animation
+                setTimeout(() => {
+                    card.style.willChange = 'auto';
+                }, delay + duration + 100);
             });
         }
 
         /**
-         * Add hover interaction effects
+         * Add hover interaction effects with enhanced performance
          */
         initHoverEffects() {
             const linkCards = $$('.link-card');
             
-            linkCards.forEach(card => {
+            linkCards.forEach((card, index) => {
                 // Use passive event listeners for better performance
-                card.addEventListener('mouseenter', this.handleMouseEnter.bind(this), { passive: true });
-                card.addEventListener('mouseleave', this.handleMouseLeave.bind(this), { passive: true });
+                const handleEnter = throttle(this.handleMouseEnter.bind(this), 16);
+                const handleLeave = throttle(this.handleMouseLeave.bind(this), 16);
+                
+                card.addEventListener('mouseenter', (e) => {
+                    handleEnter(e);
+                    // Add subtle stagger effect for visual interest
+                    if (!CONFIG.reducedMotion && index > 0) {
+                        card.style.transitionDelay = `${index * 10}ms`;
+                    }
+                }, { passive: true });
+                
+                card.addEventListener('mouseleave', handleLeave, { passive: true });
+                
+                // Enhanced touch feedback
+                card.addEventListener('touchstart', () => {
+                    if (!CONFIG.reducedMotion) {
+                        card.style.willChange = 'transform';
+                    }
+                }, { passive: true });
             });
         }
 
         handleMouseEnter(e) {
             if (CONFIG.reducedMotion) return;
             const card = e.currentTarget;
-            card.style.willChange = 'transform, box-shadow';
+            // Optimize for hover animations
+            raf(() => {
+                card.style.willChange = 'transform, box-shadow, filter';
+            });
         }
 
         handleMouseLeave(e) {
             const card = e.currentTarget;
             // Remove will-change after animation for performance
-            setTimeout(() => {
-                card.style.willChange = 'auto';
-            }, 300);
+            raf(() => {
+                setTimeout(() => {
+                    card.style.willChange = 'auto';
+                    card.style.transitionDelay = '0ms';
+                }, 300);
+            });
         }
     }
 
