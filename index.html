@@ -20,98 +20,131 @@
             <p class="bio">Connect with me across platforms</p>
         </header>
 
-        <nav class="links" role="navigation" aria-label="Social media links">
-            <a href="https://x.com/MeowAccHQ" target="_blank" rel="noopener noreferrer" class="link-card"
-                aria-label="Follow MeowAcc on Twitter/X - @MeowAccHQ">
-                <div class="link-icon" aria-hidden="true">𝕏</div>
-                <div class="link-content">
-                    <span class="link-title">Twitter / X</span>
-                    <span class="link-subtitle">@MeowAccHQ</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-            <a href="https://dreambeesai.com" target="_blank" rel="noopener noreferrer" class="link-card"
-                aria-label="Visit DreamBees AI - dreambeesai.com">
-                <div class="link-icon" aria-hidden="true">🐝</div>
-                <div class="link-content">
-                    <span class="link-title">DreamBees AI</span>
-                    <span class="link-subtitle">dreambeesai.com</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-            <a href="https://www.instagram.com/dreambeesart/" target="_blank" rel="noopener noreferrer"
-                class="link-card" aria-label="Follow dreambeesart on Instagram - @dreambeesart">
-                <div class="link-icon" aria-hidden="true">📷</div>
-                <div class="link-content">
-                    <span class="link-title">Instagram</span>
-                    <span class="link-subtitle">@dreambeesart</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-            <a href="https://open.spotify.com/artist/2kjUW1Wz4yKCguRR7s4bVc" target="_blank" rel="noopener noreferrer"
-                class="link-card" aria-label="Listen to Bozo Egg on Spotify">
-                <div class="link-icon" aria-hidden="true">🎵</div>
-                <div class="link-content">
-                    <span class="link-title">Spotify</span>
-                    <span class="link-subtitle">Bozo Egg</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-
-            <a href="https://www.tiktok.com/@goldeneggie" target="_blank" rel="noopener noreferrer" class="link-card"
-                aria-label="Follow @goldeneggie on TikTok">
-                <div class="link-icon" aria-hidden="true">🎬</div>
-                <div class="link-content">
-                    <span class="link-title">TikTok</span>
-                    <span class="link-subtitle">@goldeneggie</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-            <a href="https://www.youtube.com/@CognitivePractitioners" target="_blank" rel="noopener noreferrer"
-                class="link-card" aria-label="Subscribe to Cognitive Practitioners on YouTube">
-                <div class="link-icon" aria-hidden="true">▶️</div>
-                <div class="link-content">
-                    <span class="link-title">YouTube</span>
-                    <span class="link-subtitle">Cognitive Practitioners</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-            <a href="https://cognitiveadaptivestudies.substack.com" target="_blank" rel="noopener noreferrer"
-                class="link-card" aria-label="Read Cognitive Adaptive Studies on Substack">
-                <div class="link-icon" aria-hidden="true">📰</div>
-                <div class="link-content">
-                    <span class="link-title">Substack</span>
-                    <span class="link-subtitle">Cognitive Adaptive Studies</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-            <a href="https://discord.gg/zdmBDR3gDp" target="_blank" rel="noopener noreferrer" class="link-card"
-                aria-label="Join our Discord Community">
-                <div class="link-icon" aria-hidden="true">💬</div>
-                <div class="link-content">
-                    <span class="link-title">Discord</span>
-                    <span class="link-subtitle">Join the Community</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
-
-            <a href="https://meowacc.redbubble.com" target="_blank" rel="noopener noreferrer" class="link-card"
-                aria-label="Shop MeowAcc merchandise on Redbubble">
-                <div class="link-icon" aria-hidden="true">🛍️</div>
-                <div class="link-content">
-                    <span class="link-title">Redbubble</span>
-                    <span class="link-subtitle">meowacc.redbubble.com</span>
-                </div>
-                <div class="link-arrow" aria-hidden="true">→</div>
-            </a>
+        <nav class="tabs-nav" role="tablist" aria-label="Link categories">
+            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-connect"
+                id="tab-connect">Connect</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-content"
+                id="tab-content">Content</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-projects"
+                id="tab-projects">Projects</button>
         </nav>
+
+        <div class="tab-panels">
+            <!-- Connect Panel -->
+            <div id="panel-connect" class="tab-panel active" role="tabpanel" aria-labelledby="tab-connect">
+                <nav class="links">
+                    <a href="https://x.com/MeowAccHQ" target="_blank" rel="noopener noreferrer" class="link-card"
+                        aria-label="Follow MeowAcc on Twitter/X - @MeowAccHQ">
+                        <div class="link-icon" aria-hidden="true">𝕏</div>
+                        <div class="link-content">
+                            <span class="link-title">Twitter / X</span>
+                            <span class="link-subtitle">@MeowAccHQ</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+
+                    <a href="https://www.instagram.com/dreambeesart/" target="_blank" rel="noopener noreferrer"
+                        class="link-card" aria-label="Follow dreambeesart on Instagram - @dreambeesart">
+                        <div class="link-icon" aria-hidden="true">📷</div>
+                        <div class="link-content">
+                            <span class="link-title">Instagram</span>
+                            <span class="link-subtitle">@dreambeesart</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+
+                    <a href="https://www.tiktok.com/@goldeneggie" target="_blank" rel="noopener noreferrer"
+                        class="link-card" aria-label="Follow @goldeneggie on TikTok">
+                        <div class="link-icon" aria-hidden="true">🎬</div>
+                        <div class="link-content">
+                            <span class="link-title">TikTok</span>
+                            <span class="link-subtitle">@goldeneggie</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+
+                    <a href="https://discord.gg/zdmBDR3gDp" target="_blank" rel="noopener noreferrer" class="link-card"
+                        aria-label="Join our Discord Community">
+                        <div class="link-icon" aria-hidden="true">💬</div>
+                        <div class="link-content">
+                            <span class="link-title">Discord</span>
+                            <span class="link-subtitle">Join the Community</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Content Panel -->
+            <div id="panel-content" class="tab-panel" role="tabpanel" aria-labelledby="tab-content" hidden>
+                <nav class="links">
+                    <a href="https://open.spotify.com/artist/2kjUW1Wz4yKCguRR7s4bVc" target="_blank"
+                        rel="noopener noreferrer" class="link-card" aria-label="Listen to Bozo Egg on Spotify">
+                        <div class="link-icon" aria-hidden="true">🎵</div>
+                        <div class="link-content">
+                            <span class="link-title">Spotify</span>
+                            <span class="link-subtitle">Bozo Egg</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+
+                    <a href="https://www.youtube.com/@CognitivePractitioners" target="_blank" rel="noopener noreferrer"
+                        class="link-card" aria-label="Subscribe to Cognitive Practitioners on YouTube">
+                        <div class="link-icon" aria-hidden="true">▶️</div>
+                        <div class="link-content">
+                            <span class="link-title">YouTube</span>
+                            <span class="link-subtitle">Cognitive Practitioners</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+
+                    <a href="https://www.twitch.tv/eggwens" target="_blank" rel="noopener noreferrer" class="link-card"
+                        aria-label="Follow eggwens on Twitch">
+                        <div class="link-icon" aria-hidden="true">👾</div>
+                        <div class="link-content">
+                            <span class="link-title">Twitch</span>
+                            <span class="link-subtitle">@eggwens</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+
+                    <a href="https://cognitiveadaptivestudies.substack.com" target="_blank" rel="noopener noreferrer"
+                        class="link-card" aria-label="Read Cognitive Adaptive Studies on Substack">
+                        <div class="link-icon" aria-hidden="true">📰</div>
+                        <div class="link-content">
+                            <span class="link-title">Substack</span>
+                            <span class="link-subtitle">Cognitive Adaptive Studies</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Projects Panel -->
+            <div id="panel-projects" class="tab-panel" role="tabpanel" aria-labelledby="tab-projects" hidden>
+                <nav class="links">
+                    <a href="https://dreambeesai.com" target="_blank" rel="noopener noreferrer" class="link-card"
+                        aria-label="Visit DreamBees AI - dreambeesai.com">
+                        <div class="link-icon" aria-hidden="true">🐝</div>
+                        <div class="link-content">
+                            <span class="link-title">DreamBees AI</span>
+                            <span class="link-subtitle">dreambeesai.com</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+
+                    <a href="https://meowacc.redbubble.com" target="_blank" rel="noopener noreferrer" class="link-card"
+                        aria-label="Shop MeowAcc merchandise on Redbubble">
+                        <div class="link-icon" aria-hidden="true">🛍️</div>
+                        <div class="link-content">
+                            <span class="link-title">Redbubble</span>
+                            <span class="link-subtitle">meowacc.redbubble.com</span>
+                        </div>
+                        <div class="link-arrow" aria-hidden="true">→</div>
+                    </a>
+                </nav>
+            </div>
+        </div>
 
         <footer class="footer" role="contentinfo">
             <p>© 2025 MeowAcc</p>

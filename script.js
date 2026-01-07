@@ -3,7 +3,7 @@
  * Modern patterns, performance optimization, and best practices
  */
 
-(function() {
+(function () {
     'use strict';
 
     // ============================================
@@ -19,20 +19,20 @@
     // ============================================
     // Performance Utilities
     // ============================================
-    
+
     /**
      * RequestAnimationFrame wrapper with fallback
      */
-    const raf = window.requestAnimationFrame || 
-                window.webkitRequestAnimationFrame || 
-                ((callback) => setTimeout(callback, 16));
+    const raf = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        ((callback) => setTimeout(callback, 16));
 
     /**
      * Throttle function for performance optimization
      */
     function throttle(func, limit) {
         let inThrottle;
-        return function(...args) {
+        return function (...args) {
             if (!inThrottle) {
                 func.apply(this, args);
                 inThrottle = true;
@@ -59,7 +59,7 @@
     // ============================================
     // DOM Utilities
     // ============================================
-    
+
     /**
      * Query selector with error handling
      */
@@ -87,7 +87,7 @@
     // ============================================
     // Animation Controller
     // ============================================
-    
+
     class AnimationController {
         constructor() {
             this.observers = new Map();
@@ -140,14 +140,14 @@
         animateCard(card, index) {
             const delay = CONFIG.reducedMotion ? 0 : index * CONFIG.staggerDelay;
             const duration = 600 + (index * 20); // Slightly longer for later cards
-            
+
             raf(() => {
                 card.style.transition = `opacity ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                                          transform ${duration}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
                 card.style.transitionDelay = `${delay}ms`;
                 card.style.opacity = '1';
                 card.style.transform = 'translateY(0) scale(1)';
-                
+
                 // Clean up will-change after animation
                 setTimeout(() => {
                     card.style.willChange = 'auto';
@@ -160,12 +160,12 @@
          */
         initHoverEffects() {
             const linkCards = $$('.link-card');
-            
+
             linkCards.forEach((card, index) => {
                 // Use passive event listeners for better performance
                 const handleEnter = throttle(this.handleMouseEnter.bind(this), 16);
                 const handleLeave = throttle(this.handleMouseLeave.bind(this), 16);
-                
+
                 card.addEventListener('mouseenter', (e) => {
                     handleEnter(e);
                     // Add subtle stagger effect for visual interest
@@ -173,9 +173,9 @@
                         card.style.transitionDelay = `${index * 10}ms`;
                     }
                 }, { passive: true });
-                
+
                 card.addEventListener('mouseleave', handleLeave, { passive: true });
-                
+
                 // Enhanced touch feedback
                 card.addEventListener('touchstart', () => {
                     if (!CONFIG.reducedMotion) {
@@ -209,7 +209,7 @@
     // ============================================
     // Analytics & Tracking
     // ============================================
-    
+
     class Analytics {
         constructor() {
             this.trackedLinks = new Set();
@@ -220,9 +220,9 @@
          */
         trackLinkClick(url, platform) {
             if (this.trackedLinks.has(url)) return;
-            
+
             this.trackedLinks.add(url);
-            
+
             // Performance-optimized logging
             if (CONFIG.performanceMode === 'high') {
                 // Use requestIdleCallback for non-critical tracking
@@ -242,7 +242,7 @@
             // Ready for integration with analytics services
             // Example: Google Analytics, Mixpanel, etc.
             console.log('Link clicked:', { url, platform, timestamp: Date.now() });
-            
+
             // Example analytics integration:
             // if (typeof gtag !== 'undefined') {
             //     gtag('event', 'click', {
@@ -257,7 +257,7 @@
     // ============================================
     // Performance Monitor
     // ============================================
-    
+
     class PerformanceMonitor {
         constructor() {
             this.metrics = {
@@ -296,7 +296,7 @@
                 window.addEventListener('load', () => {
                     const timing = window.performance.timing;
                     this.metrics.loadTime = timing.loadEventEnd - timing.navigationStart;
-                    
+
                     if (CONFIG.performanceMode !== 'high') {
                         console.log('Performance metrics:', this.metrics);
                     }
@@ -308,7 +308,7 @@
     // ============================================
     // Accessibility Enhancements
     // ============================================
-    
+
     class Accessibility {
         constructor() {
             this.init();
@@ -324,7 +324,7 @@
          */
         enhanceKeyboardNavigation() {
             const linkCards = $$('.link-card');
-            
+
             linkCards.forEach(card => {
                 card.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -340,27 +340,78 @@
          */
         detectReducedMotion() {
             const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-            
+
             const handleChange = (e) => {
                 CONFIG.reducedMotion = e.matches;
                 document.documentElement.classList.toggle('reduced-motion', e.matches);
             };
-            
+
             handleChange(mediaQuery);
             mediaQuery.addEventListener('change', handleChange);
         }
     }
 
     // ============================================
+    // Tab Controller
+    // ============================================
+
+    class TabController {
+        constructor(animationController) {
+            this.animationController = animationController;
+            this.tabs = $$('.tab-btn');
+            this.panels = $$('.tab-panel');
+        }
+
+        init() {
+            if (!this.tabs.length) return;
+
+            this.tabs.forEach(tab => {
+                tab.addEventListener('click', () => this.switchTab(tab));
+            });
+        }
+
+        switchTab(selectedTab) {
+            if (selectedTab.classList.contains('active')) return;
+
+            const targetId = selectedTab.getAttribute('aria-controls');
+
+            // Update tabs
+            this.tabs.forEach(tab => {
+                const isActive = tab === selectedTab;
+                tab.classList.toggle('active', isActive);
+                tab.setAttribute('aria-selected', isActive);
+            });
+
+            // Update panels
+            this.panels.forEach(panel => {
+                const isTarget = panel.id === targetId;
+                panel.classList.toggle('active', isTarget);
+                panel.hidden = !isTarget;
+
+                if (isTarget) {
+                    // Re-trigger animations for links in the new panel
+                    const links = $$('.link-card', panel);
+                    links.forEach((link, index) => {
+                        // Reset if already animated to allow re-animation if desired
+                        // For now just ensure they animate in if they haven't yet
+                        this.animationController.animateCard(link, index);
+                    });
+                }
+            });
+        }
+    }
+
+    // ============================================
     // Main Application
     // ============================================
-    
+
     class App {
         constructor() {
             this.animationController = new AnimationController();
             this.analytics = new Analytics();
             this.performanceMonitor = new PerformanceMonitor();
             this.accessibility = new Accessibility();
+            this.tabController = new TabController(this.animationController);
         }
 
         init() {
@@ -375,6 +426,9 @@
         start() {
             // Initialize performance monitoring
             this.performanceMonitor.init();
+
+            // Initialize tabs
+            this.tabController.init();
 
             // Initialize animations
             this.animationController.initEntranceAnimations();
@@ -397,12 +451,12 @@
          */
         initLinkTracking() {
             const linkCards = $$('.link-card');
-            
+
             linkCards.forEach(card => {
                 card.addEventListener('click', (e) => {
                     const url = card.href;
                     const platform = card.querySelector('.link-title')?.textContent || 'Unknown';
-                    
+
                     this.analytics.trackLinkClick(url, platform);
                 }, { passive: true });
             });
@@ -420,7 +474,7 @@
     // ============================================
     // Initialize Application
     // ============================================
-    
+
     // Create and start the application
     const app = new App();
     app.init();
